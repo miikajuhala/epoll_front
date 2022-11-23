@@ -10,9 +10,8 @@ import dao from '../Dao/Dao';
 
 export default function AddPoll(props) {
 
-
 const [title, setTitle] = React.useState("");
-
+// eslint-disable-next-line
 const [options, setOptions] = React.useState([]);
 const [voteoptions, setVoteoptions] = React.useState([]);
 
@@ -23,19 +22,21 @@ const handleChange = (event)=>{
 
 };
 
+// handles title changes
 const handleTitle = (event)=>{
     setTitle(event.target.value);
 };
 
- function handleRemove(index) {
-    console.log("index", index)
-    // var arr = []
-  var gg = voteoptions.splice(index, 1)
-    setVoteoptions(voteoptions)
-    console.log( voteoptions)
-    setOptions(gg)
+// remove question from screen locally
+function handleRemove(index) {
+console.log("index", index)
+//remove voteoption from array
+var gg = voteoptions.splice(index, 1)
+setVoteoptions(voteoptions)
+console.log( voteoptions)
+setOptions(gg)
 
-  }
+}
 
 //call postNewPoll in dao class
 const postPoll= async () =>{
@@ -50,8 +51,10 @@ const postPoll= async () =>{
 
   return (
    
+    // slider for the whole element
     <Slide  direction="up" in={props.checked} mountOnEnter unmountOnExit>
          
+         {/* grid to keep elements in order */}
          <Grid
             container
             spacing={2}
@@ -72,6 +75,7 @@ const postPoll= async () =>{
                         onChange={handleTitle}
                     />
                 </Grid>
+
                 {/* button to create new question */}
                 <Grid xs={12}>
                     <Button sx={{color: "green", }} onClick={()=>{
@@ -81,7 +85,7 @@ const postPoll= async () =>{
                     </Button>
                 </Grid>
 
-            
+                {/* Map voteoptions */}
                 {voteoptions.map((random, index ) =>
                 <Grid xs={12}>
                     <TextField name={index} onChange={handleChange} value={random.title} label={"Option: "+ (index+1)} />   
@@ -96,7 +100,6 @@ const postPoll= async () =>{
                     justifyContent="flex-end"
                     alignItems="flex-end"
                 >
-                    {/* <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>console.log(voteoptions)}>fg222f</Button> */}
                     <Button sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
                 </Box>
 

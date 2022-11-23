@@ -40,6 +40,7 @@ export default function Frontpage(props) {
         <input className="paper-btn-menu" onClick={()=>Navigate("/AllPolls")} type="button" value="See all Polls"/>
         <input className="paper-btn-menu" onClick={()=>handleChange()} type="button" value={ checked ? "nevermind" :"Add one yourself!"}/>
         <input className="paper-btn-menu" onClick={()=>handleChange2()} type="button" value={ checked2 ? "nevermind" :"Search one by id!"}/>
+
     </Stack>
     {/* components visible when buttons clicked */}
     <AddPoll checked={checked} props={props} handleChange={handleChange}></AddPoll>

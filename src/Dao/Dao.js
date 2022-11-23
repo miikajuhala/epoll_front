@@ -6,20 +6,36 @@ const baseUrl = "https://localhost:7021/api";
 
 
 const getAllPolls = async () => {
-
-};
-
-const getPollById = async (id) => {
-    try{
-        let res = await axios.get(baseUrl + "/Poll/"+id);
+    try
+    {
+        let res = await axios.get(baseUrl + "/Poll/");
         if (res.status === 200) {
             console.log(res.data)
             return res.data
           };
-        }
-        catch (error) {
+    }
+    catch (error) 
+    {
           return "error";
-        };
+    };
+
+
+};
+
+const getPollById = async (id) => {
+    try
+    {
+        let res = await axios.get(baseUrl + "/Poll/"+id);
+        if (res.status === 200) {
+            console.log(res.data)
+            return res.data
+        }
+          
+    }
+    catch (error) 
+    {
+          return "error";
+    };
 
 
 };
@@ -28,7 +44,8 @@ const getPollById = async (id) => {
 
 const postNewPoll = async (title, voteoptions) => {
 
-    try{
+    try
+    {
         let res = await axios.post(baseUrl + "/Poll", {
             title: title,
             voteOptions: voteoptions
@@ -36,15 +53,17 @@ const postNewPoll = async (title, voteoptions) => {
             if (res.status === 200) {
                 return res.status;
             };
-        }
-        catch (error) {
-          return "error";
-        };
+    }
+    catch (error) 
+    {
+        return "error";
+    };
     }
 
 
 const putVote = async (id) => {
-    try{
+    try
+    {
         console.log(id)
         let res = await axios.put(baseUrl + "/Poll/putvote/"+id);
 
@@ -52,13 +71,11 @@ const putVote = async (id) => {
                 return res.status;
             };
     }
-    catch (error) {
+    catch (error) 
+    {
         return "error";
     };
 };
-
-
-
 
 
 const dao = {

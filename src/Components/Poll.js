@@ -1,41 +1,63 @@
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import '../App.css';
-import Slide from '@mui/material/Slide';
-import { TextField, Grid, Button, Paper, Typography, Box, RadioGroup, FormHelperText, FormLabel, FormControlLabel, FormControl } from '@mui/material';
+import { Grid, Button, Paper, RadioGroup, FormControlLabel, FormControl,IconButton, Alert, Snackbar } from '@mui/material';
 import dao from '../Dao/Dao';
-
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export default function Poll(props) {
 
-    // checked value
+     // checked value
     const [value, setValue] = React.useState();
       
-    // handles radiobutton values
+     // handles radiobutton values
     const handleRadioChange = (event) => {
         setValue(event.target.value);
-       
-      };
 
-    //on  sumbit pressed  
+    };
+ 
+     //on  sumbit pressed  
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         console.log(value)
         // get the data from the api
-        const data = await dao.putVote(value)
-     
+        const res = await dao.putVote(value)
+    
         // set state with the result
-        
-        console.log(data)
-        props.props.props.setMsg("Voting success")
-        props.props.props.setSeverity("success")
-        props.props.props.setOpen(true)
-
+        if(res===200){
+            console.log(res)
+            setMsg("Vote success")
+            setSeverity("success")
+            setOpen(true)
+        }else{
+            setMsg("Db error")
+            setSeverity("error")
+            setOpen(true)
+        }
     }
-  return (
+
+    // sackbar consts
+    const [open, setOpen] = React.useState(false)
+    const [msg, setMsg] =  React.useState('')
+    const [severity, setSeverity] =  React.useState('')
+    const action = (
+    <React.Fragment>
+        <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={()=>setOpen(false)}
+        >
+        <CloseIcon fontSize="small" />
+        </IconButton>
+    </React.Fragment>
+    )
+
    
+  return (
+   <>
     
     <Grid
         container
@@ -73,7 +95,18 @@ export default function Poll(props) {
 
             </Paper>
     </Grid>
-    
+
+      {/*snackbar element*/}
+      <Snackbar
+      lenght={13}
+      open={open}
+      anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+      autoHideDuration={2000}
+      onClose={()=>setOpen(false)}
+      message={<Alert severity={severity}>{msg}</Alert>}
+      action={action}
+  />
+    </>
   );
 }
 

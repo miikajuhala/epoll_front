@@ -13,7 +13,7 @@ const [open, setOpen] = React.useState(false)
 const [msg, setMsg] =  React.useState('')
 const [severity, setSeverity] =  React.useState('')
 
-
+// visual element for snackbar
 const action = (
   <React.Fragment>
     <IconButton
@@ -33,7 +33,7 @@ return (
 <BrowserRouter>
       <Routes>
         <Route path="/" element={<Frontpage setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
-        <Route path="AllPolls" element={<AllPolls setMsg={setMsg} setOpen={setOpen}/>} />
+        <Route path="AllPolls" element={<AllPolls setMsg={setMsg} setSeverity={setSeverity} setOpen={setOpen}/>} />
         <Route path="AddPoll" element={<AddPoll setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
       </Routes>
 </BrowserRouter>
