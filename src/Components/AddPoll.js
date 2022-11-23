@@ -96,7 +96,7 @@ const postPoll= async () =>{
                     justifyContent="flex-end"
                     alignItems="flex-end"
                 >
-                    <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>console.log(voteoptions)}>fg222f</Button>
+                    {/* <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>console.log(voteoptions)}>fg222f</Button> */}
                     <Button sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
                 </Box>
 

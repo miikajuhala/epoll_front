@@ -10,6 +10,17 @@ const getAllPolls = async () => {
 };
 
 const getPollById = async (id) => {
+    try{
+        let res = await axios.get(baseUrl + "/Poll/"+id);
+        if (res.status === 200) {
+            console.log(res.data)
+            return res.data
+          };
+        }
+        catch (error) {
+          return "error";
+        };
+
 
 };
 
@@ -22,9 +33,9 @@ const postNewPoll = async (title, voteoptions) => {
             title: title,
             voteOptions: voteoptions
         });
-        if (res.status === 200) {
-            return res.status;
-          };
+            if (res.status === 200) {
+                return res.status;
+            };
         }
         catch (error) {
           return "error";
@@ -32,8 +43,18 @@ const postNewPoll = async (title, voteoptions) => {
     }
 
 
-const incrementVote = async (editedSubject) => {
+const putVote = async (id) => {
+    try{
+        console.log(id)
+        let res = await axios.put(baseUrl + "/Poll/putvote/"+id);
 
+            if (res.status === 200) {
+                return res.status;
+            };
+    }
+    catch (error) {
+        return "error";
+    };
 };
 
 
@@ -43,7 +64,7 @@ const incrementVote = async (editedSubject) => {
 const dao = {
     getAllPolls,
     getPollById,
-    incrementVote,
+    putVote,
     postNewPoll
 };
 export default dao;

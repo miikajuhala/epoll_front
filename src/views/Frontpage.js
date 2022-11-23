@@ -3,7 +3,7 @@ import * as React from 'react';
 import '../App.css';
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import AddPoll from './AddPoll';
+import AddPoll from '../Components/AddPoll';
 import PollById from './PollById';
 
 export default function Frontpage(props) {

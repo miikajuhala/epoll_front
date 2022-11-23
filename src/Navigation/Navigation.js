@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddPoll from "../Components/AddPoll";
-import AllPolls from "../Components/AllPolls";
-import Frontpage from "../Components/Frontpage";
+import AllPolls from "../views/AllPolls";
+import Frontpage from "../views/Frontpage";
 import { Alert, Snackbar, IconButton, } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
