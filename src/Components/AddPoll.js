@@ -1,11 +1,8 @@
 import * as React from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
 import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Theme } from '@mui/material/styles';
 import { TextField, Grid, Button } from '@mui/material';
 import dao from '../Dao/Dao';
 
@@ -13,20 +10,42 @@ import dao from '../Dao/Dao';
 
 export default function AddPoll(props) {
 
+
 const [title, setTitle] = React.useState("");
 
 const [options, setOptions] = React.useState([]);
 const [voteoptions, setVoteoptions] = React.useState([]);
 
-//takes event from individual form elements and pushes it to state const
+//handles voteoptions state
 const handleChange = (event)=>{
-    setVoteoptions({...voteoptions, [event.target.name]: event.target.value});
+
+   voteoptions[event.target.name] = ({title: event.target.value, voteAmount: 0})
+
 };
+
 const handleTitle = (event)=>{
     setTitle(event.target.value);
 };
-//call postNewPoll in dao folder
-const postPoll= () => dao.postNewPoll(title, voteoptions)
+
+ function handleRemove(index) {
+    console.log("index", index)
+    // var arr = []
+  var gg = voteoptions.splice(index, 1)
+    setVoteoptions(voteoptions)
+    console.log( voteoptions)
+    setOptions(gg)
+
+  }
+
+//call postNewPoll in dao class
+const postPoll= async () =>{
+    let res = await dao.postNewPoll(title, voteoptions)
+    console.log(res)
+
+    // if res ok -> display snackbar success message to user
+    if(res===200) {props.props.setMsg("success");props.props.setSeverity("success"); props.props.setOpen(true)}
+    else {props.props.setMsg("Error with database"); props.props.setSeverity("error") ;props.props.setOpen(true)}
+}
             
 
   return (
@@ -55,16 +74,18 @@ const postPoll= () => dao.postNewPoll(title, voteoptions)
                 </Grid>
                 {/* button to create new question */}
                 <Grid xs={12}>
-                    <Button onClick={()=>{
-                        setOptions(arr=>[...arr,1 ])
-                    }}
-                    >add new option!</Button>
+                    <Button sx={{color: "green", }} onClick={()=>{
+                        setVoteoptions(voteoptions=>[...voteoptions,{"title": null ,"voteAmount": 0}])
+                    }}>
+                        add option
+                    </Button>
                 </Grid>
 
             
-                {options.map((random, index ) =>
+                {voteoptions.map((random, index ) =>
                 <Grid xs={12}>
-                    <TextField name={index} onChange={handleChange} label={"question: "+index} />   
+                    <TextField name={index} onChange={handleChange} value={random.title} label={"Option: "+ (index+1)} />   
+                    <Button onClick={()=> handleRemove(index)} >del</Button>
                 </Grid>
                 )}
                    
@@ -75,8 +96,8 @@ const postPoll= () => dao.postNewPoll(title, voteoptions)
                     justifyContent="flex-end"
                     alignItems="flex-end"
                 >
-                    <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>console.log("dd",voteoptions)}>fg222f</Button>
-                    <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>postPoll()}>fgf</Button>
+                    <Button sx={{color: "green", bgcolor:"lightGreen" }} onClick={()=>console.log(voteoptions)}>fg222f</Button>
+                    <Button sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
                 </Box>
 
             </Paper>

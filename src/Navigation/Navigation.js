@@ -11,7 +11,7 @@ function Navigation() {
 //consts for snackbar :)
 const [open, setOpen] = React.useState(false)
 const [msg, setMsg] =  React.useState('')
-
+const [severity, setSeverity] =  React.useState('')
 
 
 const action = (
@@ -32,9 +32,9 @@ return (
 <h2 className='badge'>PollApp v1.0</h2>
 <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Frontpage setMsg={setMsg} setOpen={setOpen}/>} />
+        <Route path="/" element={<Frontpage setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
         <Route path="AllPolls" element={<AllPolls setMsg={setMsg} setOpen={setOpen}/>} />
-        <Route path="AddPoll" element={<AddPoll setMsg={setMsg} setOpen={setOpen}/>} />
+        <Route path="AddPoll" element={<AddPoll setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
       </Routes>
 </BrowserRouter>
 
@@ -45,7 +45,7 @@ return (
     anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
     autoHideDuration={2000}
     onClose={()=>setOpen(false)}
-    message={<Alert severity="success">{msg}</Alert>}
+    message={<Alert severity={severity}>{msg}</Alert>}
     action={action}
 />
 

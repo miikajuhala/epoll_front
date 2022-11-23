@@ -18,9 +18,6 @@ function App() {
     <Navigation >
     </Navigation>
 
-    
-  
-
   </>
   );
 }
