@@ -8,12 +8,14 @@ import dao from '../Dao/Dao';
 
 
 
+
 export default function AddPoll(props) {
 
 const [title, setTitle] = React.useState("");
 // eslint-disable-next-line
 const [options, setOptions] = React.useState([]);
 const [voteoptions, setVoteoptions] = React.useState([]);
+
 
 //handles voteoptions state
 const handleChange = (event)=>{
@@ -29,23 +31,33 @@ const handleTitle = (event)=>{
 
 // remove question from screen locally
 function handleRemove(index) {
-console.log("index", index)
-//remove voteoption from array
-var gg = voteoptions.splice(index, 1)
-setVoteoptions(voteoptions)
-console.log( voteoptions)
-setOptions(gg)
 
+    //remove voteoption from array
+    var gg = voteoptions.splice(index, 1)
+    setVoteoptions(voteoptions)
+    setOptions(gg)
 }
 
 //call postNewPoll in dao class
 const postPoll= async () =>{
     let res = await dao.postNewPoll(title, voteoptions)
-    console.log(res)
+   
 
     // if res ok -> display snackbar success message to user
-    if(res===200) {props.props.setMsg("success");props.props.setSeverity("success"); props.props.setOpen(true)}
-    else {props.props.setMsg("Error with database"); props.props.setSeverity("error") ;props.props.setOpen(true)}
+    if(res.status===200) {
+        props.props.setMsg("Your poll is created with id: "+res.data.id);
+        props.props.setSeverity("success"); 
+        props.props.setOpen(true); 
+        setTimeout(() => props.handleChange(), 1000)
+    }
+    else {
+        console.log(res)
+        props.props.setMsg(""+res); 
+        props.props.setSeverity("error");
+        props.props.setOpen(true)
+    }
+
+
 }
             
 
@@ -54,16 +66,16 @@ const postPoll= async () =>{
     // slider for the whole element
     <Slide  direction="up" in={props.checked} mountOnEnter unmountOnExit>
          
-         {/* grid to keep elements in order */}
-         <Grid
+        {/* grid to keep elements in order */}
+        <Grid
             container
             spacing={2}
             alignItems="center"
             justifyContent="center"
-            >
+        >
 
             {/* Paper surroundounding input fields */}
-            <Paper   sx={{
+            <Paper   elevation={16} sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
                 marginTop:4
             }}>
@@ -89,25 +101,24 @@ const postPoll= async () =>{
                 {voteoptions.map((random, index ) =>
                 <Grid xs={12}>
                     <TextField name={index} onChange={handleChange} value={random.title} label={"Option: "+ (index+1)} />   
-                    <Button onClick={()=> handleRemove(index)} >del</Button>
+                    <Button sx={{color: ""}} onClick={()=> handleRemove(index)} >del</Button>
                 </Grid>
                 )}
                    
                 
-                {/* Button box */}
+                {/* Save Button box */}
                 <Box
                     display="flex"
                     justifyContent="flex-end"
                     alignItems="flex-end"
                 >
-                    <Button sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
+                    <Button sx={{color: "", bgcolor:"lightRed",m:0.5 }} onClick={()=>props.handleChange()}>Cancel</Button>
+                    <Button disabled={voteoptions.length<0} sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
                 </Box>
 
             </Paper>
-            </Grid>
+        </Grid>
     </Slide>
-    
- 
   );
 }
 

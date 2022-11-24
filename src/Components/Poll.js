@@ -1,14 +1,16 @@
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import '../App.css';
+import 'react-circular-progressbar/dist/styles.css';
 import { Grid, Button, Paper, RadioGroup, FormControlLabel, FormControl,IconButton, Alert, Snackbar } from '@mui/material';
 import dao from '../Dao/Dao';
 import CloseIcon from '@mui/icons-material/Close';
+import Chart from './Chart';
 
 
 export default function Poll(props) {
 
-     // checked value
+     // value of currently cheked radiobutton
     const [value, setValue] = React.useState();
       
      // handles radiobutton values
@@ -21,8 +23,7 @@ export default function Poll(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log(value)
-        // get the data from the api
+        // PUT new vote in
         const res = await dao.putVote(value)
     
         // set state with the result
@@ -32,7 +33,7 @@ export default function Poll(props) {
             setSeverity("success")
             setOpen(true)
         }else{
-            setMsg("Db error")
+            setMsg(res)
             setSeverity("error")
             setOpen(true)
         }
@@ -59,42 +60,50 @@ export default function Poll(props) {
   return (
    <>
     
+    {/* grid to make components align */}
     <Grid
         container
         spacing={1}
         alignItems="center"
         justifyContent="center"
         textAlign="center"
+        marginBottom={5}
     >
 
     {/* Paper component for backround*/}
-        <Paper sx={{ m: 1, width: 300, marginTop:4 }}>
+        <Paper  elevation={16} sx={{ m: 1, width: 500, marginTop:4}}>
+            {/* form element */}
+            <form onSubmit={handleSubmit}>
+                <FormControl sx={{}} variant="standard">
+                <h4>{"Id "+props.pollId+ ": "+ props.title}</h4>
+                    <RadioGroup
+                        sx={{mb:4, ml:3 }}
+                        aria-labelledby="demo-error-radios"
+                        name="quiz"
+                        value={value}
+                        onChange={handleRadioChange}
+                    >
+                        {/* map all voteoptions to selectable radiobuttons */}
+                        {props.voteoptions.map((option, index)=>
+                            <FormControlLabel value={option.id} control={<Radio />} label={option.title} />
+                        )}
 
-                    <form onSubmit={handleSubmit}>
-                        <FormControl sx={{}} variant="standard">
-                        <h4>{props.title}</h4>
-                            <RadioGroup
-                                sx={{mb:4, ml:3 }}
-                                aria-labelledby="demo-error-radios"
-                                name="quiz"
-                                value={value}
-                                onChange={handleRadioChange}
-                            >
-                                {/* map all voteoptions to selectable radiobuttons */}
-                                {props.voteoptions.map((option, index)=>
-                                    <FormControlLabel value={option.id} control={<Radio />} label={option.title} />
-                                )}
-
-                            </RadioGroup>
-                            
-                            <Button sx={{ color: "green", bgcolor:"lightGreen", mb:3}} type="submit" variant="outlined">
-                                Send answer
-                            </Button>
-                        </FormControl>
-                    </form>
-
-            </Paper>
+                    </RadioGroup>
+                    {/* button to send answer */}
+                    <Button sx={{ color: "green", bgcolor:"lightGreen", mb:3}} type="submit" variant="outlined">
+                        Send answer
+                    </Button>
+                </FormControl>
+            </form>     
+            {/* Chart component */}
+            <Chart voteoptions={props.voteoptions}></Chart>
+            
+        
+        </Paper>
     </Grid>
+    
+   
+                                   
 
       {/*snackbar element*/}
       <Snackbar

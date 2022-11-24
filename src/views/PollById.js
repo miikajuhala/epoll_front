@@ -27,13 +27,17 @@ const handleChange = (event)=>{
 const getPoll = async(id) => {
   console.log(Id)
       // get the data from the api
-      const data = await dao.getPollById(id)
+      const res = await dao.getPollById(id)
    
       // set state with the result
-      setPoll(data);
-    
-      setLoaded(true);
-      console.log(poll[0].voteOptions)
+      console.log(res)
+      if(res.status===200){
+        setPoll(res.data);
+        setLoaded(true);
+        console.log(poll[0].voteOptions)
+      }else{
+         props.props.setMsg(res); props.props.setSeverity("error"); props.props.setOpen(true)
+      }
 }
     
 
@@ -54,7 +58,7 @@ const getPoll = async(id) => {
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
                 marginTop:4
             }}>
-                <Input sx={{m:0.5}} onChange={handleChange} number placeholder="Poll id here!"/>
+                <Input sx={{m:0.5}} onChange={handleChange} type={"number"} placeholder="Poll id here!"/>
                 <Button sx={{color: "green", bgcolor:"lightGreen", m:0.5}} onClick={()=>getPoll(Id)}>Search</Button>
                 {/* <Button sx={{color: "green", bgcolor:"lightGreen", m:0.5}} onClick={()=>console.log(poll[1].voteOptions)}>log</Button> */}
                 
@@ -64,7 +68,7 @@ const getPoll = async(id) => {
     </Slide>
     <Slide direction="left">
       <>
-        {loaded && props.checked && <Poll props={props} title={poll[0].title} voteoptions={poll[0].voteOptions}></Poll>} 
+        {loaded && props.checked && <Poll props={props} title={poll[0].title} pollId={poll[0].id} voteoptions={poll[0].voteOptions}></Poll>} 
       </>
     </Slide>
  </>

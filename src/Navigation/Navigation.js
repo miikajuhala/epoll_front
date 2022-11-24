@@ -31,11 +31,11 @@ return (
 <>
 <h2 className='badge'>PollApp v1.0</h2>
 <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Frontpage setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
-        <Route path="AllPolls" element={<AllPolls setMsg={setMsg} setSeverity={setSeverity} setOpen={setOpen}/>} />
-        <Route path="AddPoll" element={<AddPoll setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
-      </Routes>
+  <Routes>
+    <Route path="/" element={<Frontpage setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
+    <Route path="AllPolls" element={<AllPolls setMsg={setMsg} setSeverity={setSeverity} setOpen={setOpen}/>} />
+    <Route path="AddPoll" element={<AddPoll setSeverity={setSeverity} setMsg={setMsg} setOpen={setOpen}/>} />
+  </Routes>
 </BrowserRouter>
 
 {/* Snackbar for announcments */}
@@ -43,7 +43,7 @@ return (
     lenght={13}
     open={open}
     anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
-    autoHideDuration={2000}
+    autoHideDuration={4000}
     onClose={()=>setOpen(false)}
     message={<Alert severity={severity}>{msg}</Alert>}
     action={action}
