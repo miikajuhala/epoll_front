@@ -77,6 +77,9 @@ const postNewPoll = async (title, voteoptions) => {
         if((error.response.data.errors.VoteOptions)){
             return "you must add atleast one option :)";
         }
+        else{
+            return "all options must have value :)"
+        }
     };
     }
 
