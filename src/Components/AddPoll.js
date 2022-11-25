@@ -47,7 +47,9 @@ const postPoll= async () =>{
         props.props.setMsg("Your poll is created with id: "+res.data.id);
         props.props.setSeverity("success"); 
         props.props.setOpen(true); 
-        setTimeout(() => props.handleChange(), 1000)
+        setTimeout(() =>{ props.handleChange(); setTitle(""); setVoteoptions([])  }, 1000)
+        
+
     }
     else {
         // display error messages to user
