@@ -2,10 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+
+### 1. `change servers baseaddress in dao/dao.js (localhost)`
+### `run npm start`
+
 ## Available Scripts
-
-## change servers baseaddress in dao/dao.js (localhost)
-
 In the project directory, you can run:
 
 ### `npm start`
