@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+## change servers baseaddress in dao/dao.js (localhost)
+
 In the project directory, you can run:
 
 ### `npm start`
