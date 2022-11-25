@@ -8,18 +8,20 @@ import 'react-tiny-fab/dist/styles.css';
 import AddPoll from "../Components/AddPoll";
 
 export default function AllPolls(props) {
-  // logic consts
+
+  // consts
   const [loaded, setLoaded] = React.useState(false);
   const [polls, setPolls] = React.useState([]);
   const [checked, setChecked] = React.useState(false);
 
-  //handle checked status in compnents
+  //handle checked status
   const handleChange = ()=>{
     setChecked(!checked)
   }
 
-  // declare the async data fetching function
+  
   useEffect(() => {
+    // declare fetching function
     const getAllPolls = async() => {
 
       // get the data from the api
@@ -27,37 +29,37 @@ export default function AllPolls(props) {
       setPolls(res);
       setLoaded(true);
   }
-
+    // call fetchin function
     getAllPolls()
-      //catch any error
-      .catch(console.error);
-        
+    
   }, [])
   
     return (
      <>
       
+      {/* grid container */}
       <Grid
         container
         spacing={2}
         alignItems="center"
         justifyContent="center"
       >
-          {/* Header */}
-          
-
+          {/* H2 */}
           <h2>All Polls</h2>
 
-    
           {/* Map all polls from db*/}
           {loaded && polls.map((poll, index)=>
-          <>
-            <Poll title={poll.title} pollId={poll.id} voteoptions={poll.voteOptions}></Poll>
-          </>
+            <>
+              <Poll poll={poll}></Poll>
+            </>
           )}   
 
       </Grid>
+
+      {/*Floating button that opes add new poll pop up when clicked  */}
       <Fab icon={<AddCircleOutlineIcon/> } onClick={()=>setChecked(!checked)} />
+      
+      {/* pop up modal */}
       <Modal sx={{marginTop:20}} open={checked}>
         <div>
           <h2 style={{color: "#79c7e8", textAlign:"center"}}>Add new Poll</h2>

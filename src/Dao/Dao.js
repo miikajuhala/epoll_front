@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-
-
 const baseUrl = "https://localhost:7021/api";
 
 
@@ -16,6 +14,7 @@ const getAllPolls = async () => {
     }
     catch (error) 
     {
+        // if error return dummy data to display to user
         console.log(error)
         return [{id :1, title: "Sorry:"+error.message ,voteOptions:[{id:15,title:"Thats a bummer",voteAmount:36,pollId:1}]}]
        
@@ -38,7 +37,7 @@ const getPollById = async (id) => {
         if(error.response && error.response.status===404){
             return error.response.data;
         }
-        //if error in server/database return indo from err message
+        //if error in server/database return info from err.message
         else
         return error.message;
     };
@@ -57,7 +56,7 @@ const postNewPoll = async (title, voteoptions) => {
             voteOptions: voteoptions
         });
             
-            return res;
+        return res;
     }
 
     catch (error) 
@@ -66,25 +65,27 @@ const postNewPoll = async (title, voteoptions) => {
         if(!error.response){
             return error.message
         }
+        //id server/network error
         if(error.response && error.response.status===500){
             return error.message
         }
+        // if error related to title missing from poll entity
         if(error.response.data.errors.Title){
             return "Add title! :)";
         }
+        // if error related to options missing from poll entity
         if((error.response.data.errors.VoteOptions)){
             return "you must add atleast one option :)";
         }
-
     };
     }
 
 
-const putVote = async (id) => {
+const putVote = async (pollId, id) => {
     try
     {
-        console.log(id)
-        let res = await axios.put(baseUrl + "/Poll/putvote/"+id);
+        console.log(pollId, id)
+        let res = await axios.put(baseUrl + "/Poll/"+pollId+"/vote/"+id);
 
             if (res.status && res.status === 200) {
                 return res.status;
@@ -92,6 +93,7 @@ const putVote = async (id) => {
     }
     catch (error) 
     {
+        //return error message
         return error.message;
     };
 };

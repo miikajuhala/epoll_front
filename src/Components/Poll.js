@@ -22,16 +22,16 @@ export default function Poll(props) {
      //on  sumbit pressed  
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         // PUT new vote in
-        const res = await dao.putVote(value)
-    
+        const res = await dao.putVote(props.poll.id, value);
+       
         // set state with the result
         if(res===200){
             console.log(res)
             setMsg("Vote success")
             setSeverity("success")
             setOpen(true)
+            setValue(null);
         }else{
             setMsg(res)
             setSeverity("error")
@@ -44,21 +44,22 @@ export default function Poll(props) {
     const [msg, setMsg] =  React.useState('')
     const [severity, setSeverity] =  React.useState('')
     const action = (
-    <React.Fragment>
-        <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={()=>setOpen(false)}
-        >
-        <CloseIcon fontSize="small" />
-        </IconButton>
-    </React.Fragment>
+        <React.Fragment>
+            <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={()=>setOpen(false)}
+            >
+            <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
     )
+    // snackbar ends
 
    
   return (
-   <>
+  <>
     
     {/* grid to make components align */}
     <Grid
@@ -75,7 +76,7 @@ export default function Poll(props) {
             {/* form element */}
             <form onSubmit={handleSubmit}>
                 <FormControl sx={{}} variant="standard">
-                <h4>{"Id "+props.pollId+ ": "+ props.title}</h4>
+                <h4>{"Id "+props.poll.id+ ": "+ props.poll.title}</h4>
                     <RadioGroup
                         sx={{mb:4, ml:3 }}
                         aria-labelledby="demo-error-radios"
@@ -84,21 +85,19 @@ export default function Poll(props) {
                         onChange={handleRadioChange}
                     >
                         {/* map all voteoptions to selectable radiobuttons */}
-                        {props.voteoptions.map((option, index)=>
+                        {props.poll.voteOptions.map((option, index)=>
                             <FormControlLabel value={option.id} control={<Radio />} label={option.title} />
                         )}
 
                     </RadioGroup>
                     {/* button to send answer */}
-                    <Button sx={{ color: "green", bgcolor:"lightGreen", mb:3}} type="submit" variant="outlined">
+                    <Button disabled={!value} sx={{ color: "green", bgcolor:"lightGreen", mb:3}} type="submit" variant="outlined">
                         Send answer
                     </Button>
                 </FormControl>
             </form>     
-            {/* Chart component */}
-            <Chart voteoptions={props.voteoptions}></Chart>
-            
-        
+            {/* Chart component to display vote amounts*/}
+            <Chart voteoptions={props.poll.voteOptions}></Chart>
         </Paper>
     </Grid>
     
@@ -106,7 +105,7 @@ export default function Poll(props) {
                                    
 
       {/*snackbar element*/}
-      <Snackbar
+    <Snackbar
       lenght={13}
       open={open}
       anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
@@ -114,7 +113,7 @@ export default function Poll(props) {
       onClose={()=>setOpen(false)}
       message={<Alert severity={severity}>{msg}</Alert>}
       action={action}
-  />
+    />
     </>
   );
 }

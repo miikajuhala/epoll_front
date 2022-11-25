@@ -15,6 +15,7 @@ const [expand, setExpand] = React.useState(false);
 
 return (
 <>
+    {/* Checks witch arrow should be displayed */}
     {expand ? (
     <KeyboardArrowUpIcon
         sx={{ color: "black", fontSize: 40 }}
@@ -31,16 +32,18 @@ return (
     </KeyboardArrowDownIcon>
     )}
 
+    {/* Collabsible element for charts */}
     <Collapse  in={expand} style={{width:"100%"}}>
         <Grid container rowSpacing={1}  
                 justifyContent="center"
-                marginLeft={"15%"} 
         >
+                {/* map all voteoptions to charts with voteamount */}
                 {props.voteoptions.map((option, index)=>
                     <Grid item xs={6} sx={{mb:2}}> 
-                        <div  style={{ width: 100, height: 100}}>
-                            {/* todo max amount of answer to db when creating poll */}
-                            <CircularProgressbar value={option.voteAmount} text={option.title} maxValue={50}/>
+                        <div  style={{marginBottom:12}}>{option.title}</div>
+                        <div  style={{ width: 100, height: 100, marginLeft: "30%"}}>
+                            {/* todo maxValue of answer to db when creating poll? */}
+                            <CircularProgressbar value={option.voteAmount}  text={option.voteAmount} maxValue={100}/>
                         </div>
                     </Grid>
                 )}

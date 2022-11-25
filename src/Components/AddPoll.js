@@ -19,9 +19,8 @@ const [voteoptions, setVoteoptions] = React.useState([]);
 
 //handles voteoptions state
 const handleChange = (event)=>{
-
-   voteoptions[event.target.name] = ({title: event.target.value, voteAmount: 0})
-
+    // get input from input field and set voteoption values (event.target.name means index in this case)
+    setVoteoptions(voteoptions, [voteoptions[event.target.name] =  ({title: event.target.value, voteAmount: 0})])
 };
 
 // handles title changes
@@ -33,16 +32,16 @@ const handleTitle = (event)=>{
 function handleRemove(index) {
 
     //remove voteoption from array
-    var gg = voteoptions.splice(index, 1)
+    var opts = voteoptions.splice(index, 1)
     setVoteoptions(voteoptions)
-    setOptions(gg)
+    setOptions(opts)
 }
 
-//call postNewPoll in dao class
+
 const postPoll= async () =>{
+    //call postNewPoll in dao class
     let res = await dao.postNewPoll(title, voteoptions)
    
-
     // if res ok -> display snackbar success message to user
     if(res.status===200) {
         props.props.setMsg("Your poll is created with id: "+res.data.id);
@@ -51,6 +50,7 @@ const postPoll= async () =>{
         setTimeout(() => props.handleChange(), 1000)
     }
     else {
+        // display error messages to user
         console.log(res)
         props.props.setMsg(""+res); 
         props.props.setSeverity("error");
@@ -88,7 +88,7 @@ const postPoll= async () =>{
                     />
                 </Grid>
 
-                {/* button to create new question */}
+                {/* button to create new option */}
                 <Grid xs={12}>
                     <Button sx={{color: "green", }} onClick={()=>{
                         setVoteoptions(voteoptions=>[...voteoptions,{"title": null ,"voteAmount": 0}])
@@ -112,6 +112,7 @@ const postPoll= async () =>{
                     justifyContent="flex-end"
                     alignItems="flex-end"
                 >
+                    {/* save and cancel buttons */}
                     <Button sx={{color: "", bgcolor:"lightRed",m:0.5 }} onClick={()=>props.handleChange()}>Cancel</Button>
                     <Button disabled={voteoptions.length<0} sx={{color: "green", bgcolor:"lightGreen",m:0.5 }} onClick={()=>postPoll()}>Save</Button>
                 </Box>
