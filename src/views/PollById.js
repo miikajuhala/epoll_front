@@ -69,7 +69,7 @@ const getPoll = async(id) => {
     {/* slider element for searched poll */}
     <Slide direction="left">
       <>
-        {loaded && props.checked && <Poll props={props} poll={poll[0]}></Poll>} 
+        {loaded && props.checked && <Poll update={()=>getPoll(Id)} props={props} poll={poll[0]}></Poll>} 
       </>
     </Slide>
  </>

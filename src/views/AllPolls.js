@@ -21,18 +21,19 @@ export default function AllPolls(props) {
 
   
   useEffect(() => {
-    // declare fetching function
-    const getAllPolls = async() => {
+    // call fetchin function
+    getAllPolls()
+    
+  }, [])
+
+     // declare fetching function
+     const getAllPolls = async() => {
 
       // get the data from the api
       const res = await dao.getAllPolls()
       setPolls(res);
       setLoaded(true);
   }
-    // call fetchin function
-    getAllPolls()
-    
-  }, [])
   
     return (
      <>
@@ -50,7 +51,7 @@ export default function AllPolls(props) {
           {/* Map all polls from db*/}
           {loaded && polls.map((poll, index)=>
             <>
-              <Poll poll={poll}></Poll>
+              <Poll update={getAllPolls} poll={poll}></Poll>
             </>
           )}   
 
@@ -63,7 +64,7 @@ export default function AllPolls(props) {
       <Modal sx={{marginTop:20}} open={checked}>
         <div>
           <h2 style={{color: "#79c7e8", textAlign:"center"}}>Add new Poll</h2>
-          <AddPoll checked={checked} handleChange={handleChange} props={props}></AddPoll>
+          <AddPoll update={getAllPolls} checked={checked} handleChange={handleChange} props={props}></AddPoll>
         </div>
       </Modal>
    </>

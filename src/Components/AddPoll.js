@@ -48,7 +48,8 @@ const postPoll= async () =>{
         props.props.setSeverity("success"); 
         props.props.setOpen(true); 
         setTimeout(() =>{ props.handleChange(); setTitle(""); setVoteoptions([])  }, 1000)
-        
+        //update list
+        props.update();
 
     }
     else {

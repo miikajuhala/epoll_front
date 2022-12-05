@@ -32,6 +32,7 @@ export default function Poll(props) {
             setSeverity("success")
             setOpen(true)
             setValue(null);
+            props.update()
         }else{
             setMsg(res)
             setSeverity("error")
